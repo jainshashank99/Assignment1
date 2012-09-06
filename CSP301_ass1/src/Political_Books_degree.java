@@ -71,8 +71,8 @@ public class Political_Books_degree extends JPanel {
 		
 		// --------------------------------------------------------------------
 		// set up the renderers
+		//size of the node is set according to the degree of nodes
 		FinalRenderer_books tr = new FinalRenderer_books();
-	//	tr.setRoundedCorner(8, 8);
 		m_vis.setRendererFactory(new DefaultRendererFactory(tr));
 
 		// --------------------------------------------------------------------
@@ -106,19 +106,16 @@ public class Political_Books_degree extends JPanel {
 		int hops = 10;
 		final GraphDistanceFilter filter = new GraphDistanceFilter(label, hops);
 
-		int[] palette = { ColorLib.rgb(244,164,96),ColorLib.rgb(0,191,255), ColorLib.rgb(0,255,0) };
-		int[] palette2 = { ColorLib.rgb(255,0,0),ColorLib.rgb(0,0,255), ColorLib.rgb(0,100,0) };
-		DataColorAction fill = new DataColorAction("graph.nodes", "value",
-									Constants.NOMINAL, VisualItem.FILLCOLOR, palette);
+		int[] palette = {ColorLib.rgb(244,164,96), ColorLib.rgb(0,191,255), ColorLib.rgb(0,255,0)};
+		int[] palette2 = {ColorLib.rgb(255,0,0), ColorLib.rgb(0,0,255), ColorLib.rgb(0,100,0)};
+		DataColorAction fill = new DataColorAction("graph.nodes", "value", Constants.NOMINAL, VisualItem.FILLCOLOR, palette);
 		ColorAction nStroke = new ColorAction("graph.nodes", VisualItem.STROKECOLOR);
         nStroke.setDefaultColor(ColorLib.gray(100));
-		DataColorAction fill2 = new DataColorAction("graph.nodes", "value",
-									Constants.NOMINAL, VisualItem.FILLCOLOR, palette2);
+		DataColorAction fill2 = new DataColorAction("graph.nodes", "value", Constants.NOMINAL, VisualItem.FILLCOLOR, palette2);
 		fill.add(VisualItem.FIXED, ColorLib.rgb(139,137,112));
 		fill.add(VisualItem.HIGHLIGHT, fill2);
 		
-		ColorAction edges = new ColorAction("graph.edges",
-				VisualItem.STROKECOLOR, ColorLib.gray(200));
+		ColorAction edges = new ColorAction("graph.edges", VisualItem.STROKECOLOR, ColorLib.gray(200));
 		edges.add(VisualItem.HIGHLIGHT, ColorLib.rgb(0,0,0));
 
 		ActionList draw = new ActionList();
