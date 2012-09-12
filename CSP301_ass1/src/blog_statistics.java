@@ -267,8 +267,8 @@ public class blog_statistics {
 		br.close();
 		System.out.println("Graph Made!!");
 
-		// graphstat(graph);
-		// triads(graph);
+		 graphstat(graph);
+		 triads(graph);
 		global(graph);
 		nacc(graph);
 
