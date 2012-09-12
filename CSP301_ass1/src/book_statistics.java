@@ -39,7 +39,7 @@ public class book_statistics {
 		Node[] adjacent;
 		//getting the neighbors of a node
 		for (int m = 0; m < tot_nodes; m++) {
-			Iterator it = graph.neighbors(graph.getNode(m));
+			Iterator<?> it = graph.neighbors(graph.getNode(m));
 			adjacent = new Node[50];
 			int i = 0;
 			while (it.hasNext()) {

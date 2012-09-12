@@ -67,7 +67,7 @@ public class Political_blogs {
 		graph.addColumn("source", String.class);
 
 		//reading file from polblogs using Filereader and Buffered Reader
-		FileInputStream fstream = new FileInputStream("polblogs.gml");
+		FileInputStream fstream = new FileInputStream("polblogslhjk.gml");
 		DataInputStream data = new DataInputStream(fstream);
 		BufferedReader br = new BufferedReader(new InputStreamReader(data));
 		br.readLine();
