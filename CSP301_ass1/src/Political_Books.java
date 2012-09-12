@@ -59,9 +59,9 @@ public class Political_Books extends JPanel {
 
 	private static final String nodes = "graph.nodes";
 	private static final String edges = "graph.edges";
-	private static Graph graph;
+	private static Graph graph;//graph in which main data is stored
 
-	private Visualization m_vis;
+	private Visualization m_vis;//visualisation od graph
 
 	public Political_Books(Graph g, String label) {
 		super(new BorderLayout());
@@ -107,27 +107,35 @@ public class Political_Books extends JPanel {
 		int hops = 10;
 		final GraphDistanceFilter filter = new GraphDistanceFilter(label, hops);
 
+		//action for coloring the nodes created
 		int[] palette = { ColorLib.rgb(244,164,96),ColorLib.rgb(0,191,255), ColorLib.rgb(0,255,0) };
 		int[] palette2 = { ColorLib.rgb(255,0,0),ColorLib.rgb(0,0,255), ColorLib.rgb(0,100,0) };
 		DataColorAction fill = new DataColorAction("graph.nodes", "value",
 									Constants.NOMINAL, VisualItem.FILLCOLOR, palette);
 		DataColorAction fill2 = new DataColorAction("graph.nodes", "value",
 									Constants.NOMINAL, VisualItem.FILLCOLOR, palette2);
+		//color of fixed nodes decided
 		fill.add(VisualItem.FIXED, ColorLib.rgb(139,137,112));
+		//color of highlighted neighbours decided
 		fill.add(VisualItem.HIGHLIGHT, fill2);
 		
+		//color of edges decided
 		ColorAction edges = new ColorAction("graph.edges",
 				VisualItem.STROKECOLOR, ColorLib.gray(200));
 		edges.add(VisualItem.HIGHLIGHT, ColorLib.rgb(0,0,0));
 
+		//actionlist for coloring actions created
 		ActionList draw = new ActionList();
 		draw.add(filter);
 		draw.add(fill);
 		draw.add(new ColorAction(nodes, VisualItem.TEXTCOLOR, ColorLib.rgb(0,0,0)));
 		draw.add(edges);
 
+		//action list for layout added
 		ActionList animate = new ActionList(Activity.INFINITY);
+		//id written on the nodes
 		animate.add(new FinalDecoratorLayout("nodedec"));
+		//Foece directed layout given to the graph to see clustering
 		animate.add(new ForceDirectedLayout("graph", false));
 		animate.add(fill);
 		animate.add(edges);
@@ -145,8 +153,8 @@ public class Political_Books extends JPanel {
 		// set up a display to show the visualization
 
 		Display display = new Display(m_vis);
-		display.setSize(1366, 768);
-		display.pan(550, 350);
+		display.setSize(1366, 768);//size of display given
+		display.pan(550, 350);//origin of graph shifted
 		display.setForeground(Color.GRAY);
 		display.setBackground(Color.WHITE);
 
@@ -160,9 +168,9 @@ public class Political_Books extends JPanel {
 		display.addControlListener(new ZoomToFitControl());
 		display.addControlListener(new NeighborHighlightControl());
 
-		// overview display
-		 Display overview = new Display(m_vis);
-		 overview.setSize(290,290);
+		// overview display, a small visualization in side panel
+		 Display overview = new Display(m_vis);//vis added to display
+		 overview.setSize(290,290);///size given
 		 overview.addItemBoundsListener(new FitOverviewListener());
 
 		display.setForeground(Color.GRAY);
@@ -180,6 +188,7 @@ public class Political_Books extends JPanel {
 		opanel.setBackground(Color.WHITE);
 		opanel.add(overview);
 
+		//slider added to see nodes at given distance from the selected node
 		final JValueSlider slider = new JValueSlider("Distance", 0, hops, hops);
 		slider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -191,7 +200,8 @@ public class Political_Books extends JPanel {
 		slider.setPreferredSize(new Dimension(300, 30));
 		slider.setMaximumSize(new Dimension(300, 30));
 
-		Box cf = new Box(BoxLayout.Y_AXIS);
+		//slider of distance added to fpanel
+		Box cf = new Box(BoxLayout.Y_AXIS);//box of slider created
 		cf.add(slider);
 		cf.setBorder(BorderFactory.createTitledBorder("Connectivity Filter"));
 		fpanel.add(cf);
@@ -202,14 +212,14 @@ public class Political_Books extends JPanel {
 
 		// create a new JSplitPane to present the interface
 		JSplitPane split = new JSplitPane();
-		split.setLeftComponent(display);
-		split.setRightComponent(fpanel);
+		split.setLeftComponent(display);//left part is main display
+		split.setRightComponent(fpanel);//right part is fpanel which contains different controls
 		split.setOneTouchExpandable(true);
 		split.setContinuousLayout(false);
-		split.setDividerLocation(1000);
+		split.setDividerLocation(1000);//divider location set
 
 		// now we run our action list
-		m_vis.run("draw");
+		m_vis.run("draw");//coloring actions called on visualization 
 
 		add(split);
 	}
@@ -233,16 +243,19 @@ public class Political_Books extends JPanel {
 
 		//sets data in the graph
 		setUpData();
+		//frame created and displayed
 		JFrame frame = demo(graph, "graph");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	public static void setUpData() throws IOException {
+		//columns in graph added
 		graph = new Graph();
 		graph.addColumn("id", Integer.class);
 		graph.addColumn("label", String.class);
 		graph.addColumn("value", String.class);
 
+		//file read using Filereader and BufferedReader
 		FileInputStream fstream = new FileInputStream("polbooks.gml");
 		DataInputStream data = new DataInputStream(fstream);
 		BufferedReader br = new BufferedReader(new InputStreamReader(data));
@@ -252,6 +265,7 @@ public class Political_Books extends JPanel {
 		br.readLine();
 		br.readLine();
 		String s = br.readLine();
+		//nodes added
 		while (s.equals("  node")) {
 			Node n = graph.addNode();
 			br.readLine();
@@ -266,6 +280,7 @@ public class Political_Books extends JPanel {
 			s = br.readLine();
 			sc.close();
 		}
+		//edges added
 		while (s.equals("  edge")) {
 			br.readLine();
 			Scanner sc = new Scanner(br.readLine());
